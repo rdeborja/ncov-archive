@@ -131,7 +131,7 @@ def create_metadata_dictionary(consensus, sample_name, fasta_header):
     metadata_record['Last_vaccinated'] = ''
     metadata_record['Treatment'] = ''
     metadata_record['Sequencing_technology'] = 'Oxford Nanopore'
-    metadata_record['Assembly_method'] = 'unknown'
+    metadata_record['Assembly_method'] = 'ARTIC-nanopolish 1.1.2'
     metadata_record['Coverage'] = 'unknown'
     metadata_record['Originating_lab'] = 'St. Michael\'s Hospital'
     metadata_record['Originating_lab_Address'] = '30 Bond Street, Toronto, ON'
