@@ -139,7 +139,7 @@ def create_metadata_dictionary(consensus, sample_name, fasta_header):
     metadata_record['Submitting_lab'] = 'The Ontario Institute for Cancer Research'
     metadata_record['Submitting_lab_Address'] = '661 University Avenue, Toronto, ON'
     metadata_record['Sample_ID_given_by_submitting_laboratory'] = sample_name
-    metadata_record['Authors'] = 'Ramzi Fattouh,Larissa M. Matukas,Mark Downing,Annette Gower,Karel Boissinot,Samira Mubareka'
+    metadata_record['Authors'] = 'Ramzi Fattouh,Larissa M. Matukas,Mark Downing,Annette Gower,Karel Boissinot,Samira Mubareka,Ilinca Lungu, Bernard Lam, Jeremy Johns, Paul Krzyzanowski, Richard de Borja, Philip Zuzarte, Jared Simpson'
     metadata_record['Comment'] = ''
     metadata_record['Comment_icon'] = ''
     return metadata_record
