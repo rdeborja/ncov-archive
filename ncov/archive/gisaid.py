@@ -5,6 +5,7 @@ A Python module for handling files for uploading to GISAID.
 import os
 import re
 import csv
+import textwrap as tw
 from Bio import SeqIO
 
 def create_fasta_header(virus, sample_id, country, year):
@@ -20,7 +21,11 @@ def create_fasta_record(fasta, header):
     '''
     Create a BioPython FASTA record
     '''
-    pass
+    fasta_record = []
+    _tmp_record = SeqIO.read(fasta, 'fasta')
+    fasta_record.append(header)
+    return fasta_record + tw.wrap(str(_tmp_record.seq), width=60)
+
 
 
 def merge_fasta_files(fasta_list):
