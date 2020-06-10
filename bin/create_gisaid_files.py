@@ -67,3 +67,4 @@ for gisaid_sample in gisaid_samples:
 with open(args.fasta, 'w') as fasta_out:
     for line in multi_fasta_list:
         fasta_out.write(line)
+        fasta_out.write("\n")
