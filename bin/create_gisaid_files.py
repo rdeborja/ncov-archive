@@ -46,6 +46,7 @@ for gisaid_sample in gisaid_samples:
                 file_o.write(gisaid.create_metadata_string(_sample_dict))
                 file_o.write("\n")
             else:
+                print(' '.join(['Excluding sample: ', samplename]))
                 continue
         else:
             file_o.write(gisaid.create_metadata_string(_sample_dict))
