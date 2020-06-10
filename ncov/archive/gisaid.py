@@ -258,7 +258,8 @@ def import_uhtc_metadata(file):
     The header for the file is listed as: sample, external_name, date, ct
 
     Arguments:
-        * 
+        * file: a tab seperated file containing sample name, external name,
+                collection date and cycle threshold
 
     Return Value:
         Returns a dictionary containing samples as the key and the
@@ -270,3 +271,14 @@ def import_uhtc_metadata(file):
         for line in ct_reader:
             data[line['sample']] = {'collection_date' : line['date'], 'ct' : line['ct']}
     return data
+
+
+def import_sample_include_list(file):
+    '''
+    Read a list of samples and import them into an array for use.
+    '''
+    sample_include = []
+    with open(file, 'r') as file_i:
+        for line in file_i:
+            sample_include.append(line.rstrip())
+    return sample_include
