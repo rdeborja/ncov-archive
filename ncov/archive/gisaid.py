@@ -104,13 +104,15 @@ def init_metadata_dictionary():
     metadata_record = {}
 
 
-def create_metadata_dictionary(consensus, sample_name, fasta_header, coverage, date='unknown'):
+def create_metadata_dictionary(consensus, sample_name, fasta_header, coverage,
+                               fasta_file, date='unknown'):
     '''
     Create a dictionary containing metadata fields used in the GISAID template.
     '''
     metadata_record = {}
     metadata_record['Submitter'] = 'rdeborja'
-    metadata_record['FASTA_filename'] = os.path.basename(consensus)
+#    metadata_record['FASTA_filename'] = os.path.basename(consensus)
+    metadata_record['FASTA_filename'] = fasta_file
     metadata_record['Virus_name'] = re.sub('^>', '', fasta_header)
     metadata_record['Type'] = 'betacoronavirus'
     metadata_record['Passage_details_history'] = 'unknown'
