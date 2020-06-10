@@ -16,24 +16,7 @@ def create_fasta_header(virus, sample_id, country, year):
     return fasta_header
 
 
-def replace_fasta_header(record, header):
-    '''
-    Create a new SeqIO record object with the source sequence and the new
-    header.
-
-    Arguments:
-        * fasta:    full path to the FASTA file containing the sequence to upload
-                    to GISAID
-        * header:   header compliant with the GISAID standard for uploads
-
-    Return Value:
-        Returns a SeqIO object with the replacement header.
-    '''
-    record.id = header
-    return record
-
-
-def create_fasta_record(fasta):
+def create_fasta_record(fasta, header):
     '''
     Create a BioPython FASTA record
     '''
@@ -134,10 +117,10 @@ def create_metadata_dictionary(consensus, sample_name, fasta_header, date='unkno
     metadata_record['Sequencing_technology'] = 'Oxford Nanopore'
     metadata_record['Assembly_method'] = 'ARTIC-nanopolish 1.1.2'
     metadata_record['Coverage'] = 'unknown'
-    metadata_record['Originating_lab'] = 'St. Michael\'s Hospital'
+    metadata_record['Originating_lab'] = 'Unity Health Toronto'
     metadata_record['Originating_lab_Address'] = '30 Bond Street, Toronto, ON'
     metadata_record['Sample_ID_given_by_the_sample_provider'] = sample_name
-    metadata_record['Submitting_lab'] = 'The Ontario Institute for Cancer Research'
+    metadata_record['Submitting_lab'] = 'Ontario Institute for Cancer Research'
     metadata_record['Submitting_lab_Address'] = '661 University Avenue, Toronto, ON'
     metadata_record['Sample_ID_given_by_submitting_laboratory'] = sample_name
     metadata_record['Authors'] = 'Ramzi Fattouh,Larissa M. Matukas,Mark Downing,Annette Gower,Karel Boissinot,Samira Mubareka,Ilinca Lungu, Bernard Lam, Jeremy Johns, Paul Krzyzanowski, Richard de Borja, Philip Zuzarte, Jared Simpson'
