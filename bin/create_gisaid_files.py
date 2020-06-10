@@ -48,6 +48,7 @@ for gisaid_sample in gisaid_samples:
                                                          sample_name=samplename,
                                                          fasta_header=gisaid_sample[samplename]['fasta_header'],
                                                          coverage=qc_dict[samplename]['mean_depth'],
+                                                         fasta_file=args.fasta,
                                                          date=date)
         if include_list:
             if samplename in include_list:
