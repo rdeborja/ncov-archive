@@ -4,6 +4,7 @@ A Python module for handling files for uploading to GISAID.
 
 import os
 import re
+import csv
 from Bio import SeqIO
 
 def create_fasta_header(virus, sample_id, country, year):
