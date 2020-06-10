@@ -310,5 +310,5 @@ def get_coverage_dictionary(file):
     with open(file, 'r') as file_i:
         qc_reader = csv.DictReader(file_i, delimiter='\t')
         for line in qc_reader:
-            qc_data[line['sample']] = {'mean_depth' : line['mean_depth']}
+            qc_data[line['sample_name']] = {'mean_depth' : line['mean_depth']}
     return qc_data
