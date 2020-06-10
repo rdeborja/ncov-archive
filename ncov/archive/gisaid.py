@@ -189,7 +189,7 @@ def get_column_header(delimiter='\t'):
         'covv_gender',
         'covv_patient_age',
         'covv_patient_status',
-        'covv_speciment',
+        'covv_specimen',
         'covv_outbreak',
         'covv_last_vaccinated',
         'covv_treatment',
