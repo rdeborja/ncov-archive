@@ -108,7 +108,7 @@ def get_sample_name_from_fasta(file, pattern=['\.consensus.fasta', '\.consensus.
     return re.sub(_search, '', os.path.basename(file))
 
 
-def create_metadata_dictionary(consensus, sample_name, fasta_header):
+def create_metadata_dictionary(consensus, sample_name, fasta_header, date='unknown'):
     '''
     Create a dictionary containing metadata fields used in the GISAID template.
     '''
@@ -118,7 +118,7 @@ def create_metadata_dictionary(consensus, sample_name, fasta_header):
     metadata_record['Virus_name'] = re.sub('^>', '', fasta_header)
     metadata_record['Type'] = 'betacoronavirus'
     metadata_record['Passage_details_history'] = 'unknown'
-    metadata_record['Collection_date'] = 'unknown'
+    metadata_record['Collection_date'] = date
     metadata_record['Location'] = 'Canada'
     metadata_record['Additional_location_information'] = ''
     metadata_record['Host'] = 'Human'
@@ -265,3 +265,24 @@ def write_metadata_to_file(metadata, file='out.csv'):
             for sample in file:
                 metadata_string = ','.join()
                 outfile.write(create_metadata_dictionary(sample_name=sample, consensus=file[sample]['consensus']) + "\n")
+
+
+def import_uhtc_metadata(file):
+    '''
+    A function for reading in a tab seperated text file from
+    UHTC and import the data as a dictionary.
+    The header for the file is listed as: sample, external_name, date, ct
+
+    Arguments:
+        * 
+
+    Return Value:
+        Returns a dictionary containing samples as the key and the
+        collection date as the value.
+    '''
+    data = {}
+    with open(file, 'r') as file_i:
+        ct_reader = csv.DictReader(file_i, delimiter='\t')
+        for line in ct_reader:
+            data[line['sample']] = {'collection_date' : line['date'], 'ct' : line['ct']}
+    return data
