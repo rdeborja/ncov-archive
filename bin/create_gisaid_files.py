@@ -46,6 +46,7 @@ for gisaid_sample in gisaid_samples:
         _sample_dict = gisaid.create_metadata_dictionary(consensus=gisaid_sample[samplename]['consensus'],
                                                          sample_name=samplename,
                                                          fasta_header=gisaid_sample[samplename]['fasta_header'],
+                                                         coverage=qc_dict[samplename]['mean_depth'],
                                                          date=date)
         if include_list:
             if samplename in include_list:
