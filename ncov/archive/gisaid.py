@@ -92,7 +92,14 @@ def get_sample_name_from_fasta(file, pattern=['\.consensus.fasta', '\.consensus.
     return re.sub(_search, '', os.path.basename(file))
 
 
-def create_metadata_dictionary(consensus, sample_name, fasta_header, date='unknown'):
+def init_metadata_dictionary():
+    '''
+
+    '''
+    metadata_record = {}
+
+
+def create_metadata_dictionary(consensus, sample_name, fasta_header, coverage, date='unknown'):
     '''
     Create a dictionary containing metadata fields used in the GISAID template.
     '''
@@ -103,7 +110,7 @@ def create_metadata_dictionary(consensus, sample_name, fasta_header, date='unkno
     metadata_record['Type'] = 'betacoronavirus'
     metadata_record['Passage_details_history'] = 'unknown'
     metadata_record['Collection_date'] = date
-    metadata_record['Location'] = 'Canada'
+    metadata_record['Location'] = 'North America / Canada / Ontario'
     metadata_record['Additional_location_information'] = ''
     metadata_record['Host'] = 'Human'
     metadata_record['Additional_host_information'] = ''
@@ -116,14 +123,14 @@ def create_metadata_dictionary(consensus, sample_name, fasta_header, date='unkno
     metadata_record['Treatment'] = ''
     metadata_record['Sequencing_technology'] = 'Oxford Nanopore'
     metadata_record['Assembly_method'] = 'ARTIC-nanopolish 1.1.2'
-    metadata_record['Coverage'] = 'unknown'
+    metadata_record['Coverage'] = coverage
     metadata_record['Originating_lab'] = 'Unity Health Toronto'
-    metadata_record['Originating_lab_Address'] = '30 Bond Street, Toronto, ON'
+    metadata_record['Originating_lab_Address'] = '30 Bond Street, Toronto, ON, M5B 1W8'
     metadata_record['Sample_ID_given_by_the_sample_provider'] = sample_name
     metadata_record['Submitting_lab'] = 'Ontario Institute for Cancer Research'
-    metadata_record['Submitting_lab_Address'] = '661 University Avenue, Toronto, ON'
+    metadata_record['Submitting_lab_Address'] = '661 University Avenue, Toronto, ON, M5G 1M1'
     metadata_record['Sample_ID_given_by_submitting_laboratory'] = sample_name
-    metadata_record['Authors'] = 'Ramzi Fattouh,Larissa M. Matukas,Mark Downing,Annette Gower,Karel Boissinot,Samira Mubareka,Ilinca Lungu, Bernard Lam, Jeremy Johns, Paul Krzyzanowski, Richard de Borja, Philip Zuzarte, Jared Simpson'
+    metadata_record['Authors'] = 'Ramzi Fattouh,Larissa M. Matukas,Mark Downing,Annette Gower,Karel Boissinot,Samira Mubareka,TIBDN,Ilinca Lungu,Bernard Lam,Jeremy Johns,Paul Krzyzanowski,Richard de Borja,Philip Zuzarte,Jared Simpson'
     metadata_record['Comment'] = ''
     metadata_record['Comment_icon'] = ''
     return metadata_record
@@ -282,3 +289,26 @@ def import_sample_include_list(file):
         for line in file_i:
             sample_include.append(line.rstrip())
     return sample_include
+
+
+def import_sample_exclude_list(file):
+    '''
+    Read a list of samples and import them as a sample removal step.
+    '''
+    sample_exclude = []
+    with open(file, 'r') as file_i:
+        for line in file_i:
+            sample_exclude.append(line.rstrip())
+    return sample_exclude
+
+
+def get_coverage_dictionary(file):
+    '''
+    Get the coverage dictionary.
+    '''
+    qc_data = {}
+    with open(file, 'r') as file_i:
+        qc_reader = csv.DictReader(file_i, delimiter='\t')
+        for line in qc_reader:
+            qc_data[line['sample']] = {'mean_depth' : line['mean_depth']}
+    return qc_data
