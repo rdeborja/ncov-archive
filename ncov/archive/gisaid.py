@@ -5,6 +5,7 @@ A Python module for handling files for uploading to GISAID.
 import os
 import re
 import csv
+import textwrap as tw
 from Bio import SeqIO
 
 def create_fasta_header(virus, sample_id, country, year):
@@ -20,7 +21,11 @@ def create_fasta_record(fasta, header):
     '''
     Create a BioPython FASTA record
     '''
-    pass
+    fasta_record = []
+    _tmp_record = SeqIO.read(fasta, 'fasta')
+    fasta_record.append(header)
+    return fasta_record + tw.wrap(str(_tmp_record.seq), width=60)
+
 
 
 def merge_fasta_files(fasta_list):
@@ -92,18 +97,27 @@ def get_sample_name_from_fasta(file, pattern=['\.consensus.fasta', '\.consensus.
     return re.sub(_search, '', os.path.basename(file))
 
 
-def create_metadata_dictionary(consensus, sample_name, fasta_header, date='unknown'):
+def init_metadata_dictionary():
+    '''
+
+    '''
+    metadata_record = {}
+
+
+def create_metadata_dictionary(consensus, sample_name, fasta_header, coverage,
+                               fasta_file, date='unknown'):
     '''
     Create a dictionary containing metadata fields used in the GISAID template.
     '''
     metadata_record = {}
     metadata_record['Submitter'] = 'rdeborja'
-    metadata_record['FASTA_filename'] = os.path.basename(consensus)
+#    metadata_record['FASTA_filename'] = os.path.basename(consensus)
+    metadata_record['FASTA_filename'] = fasta_file
     metadata_record['Virus_name'] = re.sub('^>', '', fasta_header)
     metadata_record['Type'] = 'betacoronavirus'
     metadata_record['Passage_details_history'] = 'unknown'
     metadata_record['Collection_date'] = date
-    metadata_record['Location'] = 'Canada'
+    metadata_record['Location'] = 'North America / Canada / Ontario'
     metadata_record['Additional_location_information'] = ''
     metadata_record['Host'] = 'Human'
     metadata_record['Additional_host_information'] = ''
@@ -116,14 +130,14 @@ def create_metadata_dictionary(consensus, sample_name, fasta_header, date='unkno
     metadata_record['Treatment'] = ''
     metadata_record['Sequencing_technology'] = 'Oxford Nanopore'
     metadata_record['Assembly_method'] = 'ARTIC-nanopolish 1.1.2'
-    metadata_record['Coverage'] = 'unknown'
+    metadata_record['Coverage'] = coverage
     metadata_record['Originating_lab'] = 'Unity Health Toronto'
-    metadata_record['Originating_lab_Address'] = '30 Bond Street, Toronto, ON'
+    metadata_record['Originating_lab_Address'] = '30 Bond Street, Toronto, ON, M5B 1W8'
     metadata_record['Sample_ID_given_by_the_sample_provider'] = sample_name
     metadata_record['Submitting_lab'] = 'Ontario Institute for Cancer Research'
-    metadata_record['Submitting_lab_Address'] = '661 University Avenue, Toronto, ON'
+    metadata_record['Submitting_lab_Address'] = '661 University Avenue, Toronto, ON, M5G 1M1'
     metadata_record['Sample_ID_given_by_submitting_laboratory'] = sample_name
-    metadata_record['Authors'] = 'Ramzi Fattouh,Larissa M. Matukas,Mark Downing,Annette Gower,Karel Boissinot,Samira Mubareka,Ilinca Lungu, Bernard Lam, Jeremy Johns, Paul Krzyzanowski, Richard de Borja, Philip Zuzarte, Jared Simpson'
+    metadata_record['Authors'] = 'Ramzi Fattouh,Larissa M. Matukas,Mark Downing,Annette Gower,Karel Boissinot,Samira Mubareka,TIBDN,Ilinca Lungu,Bernard Lam,Jeremy Johns,Paul Krzyzanowski,Richard de Borja,Philip Zuzarte,Jared Simpson'
     metadata_record['Comment'] = ''
     metadata_record['Comment_icon'] = ''
     return metadata_record
@@ -182,7 +196,7 @@ def get_column_header(delimiter='\t'):
         'covv_gender',
         'covv_patient_age',
         'covv_patient_status',
-        'covv_speciment',
+        'covv_specimen',
         'covv_outbreak',
         'covv_last_vaccinated',
         'covv_treatment',
@@ -258,7 +272,8 @@ def import_uhtc_metadata(file):
     The header for the file is listed as: sample, external_name, date, ct
 
     Arguments:
-        * 
+        * file: a tab seperated file containing sample name, external name,
+                collection date and cycle threshold
 
     Return Value:
         Returns a dictionary containing samples as the key and the
@@ -270,3 +285,37 @@ def import_uhtc_metadata(file):
         for line in ct_reader:
             data[line['sample']] = {'collection_date' : line['date'], 'ct' : line['ct']}
     return data
+
+
+def import_sample_include_list(file):
+    '''
+    Read a list of samples and import them into an array for use.
+    '''
+    sample_include = []
+    with open(file, 'r') as file_i:
+        for line in file_i:
+            sample_include.append(line.rstrip())
+    return sample_include
+
+
+def import_sample_exclude_list(file):
+    '''
+    Read a list of samples and import them as a sample removal step.
+    '''
+    sample_exclude = []
+    with open(file, 'r') as file_i:
+        for line in file_i:
+            sample_exclude.append(line.rstrip())
+    return sample_exclude
+
+
+def get_coverage_dictionary(file):
+    '''
+    Get the coverage dictionary.
+    '''
+    qc_data = {}
+    with open(file, 'r') as file_i:
+        qc_reader = csv.DictReader(file_i, delimiter='\t')
+        for line in qc_reader:
+            qc_data[line['sample_name']] = {'mean_depth' : line['mean_depth']}
+    return qc_data
