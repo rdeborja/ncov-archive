@@ -6,6 +6,7 @@ Create the required files for GISAID uploads.
 import os
 import sys
 import argparse
+import yaml
 import ncov.archive.gisaid as gisaid
 
 parser = argparse.ArgumentParser(description='Create required GISAID files')
@@ -16,10 +17,15 @@ parser.add_argument('-q', '--qc', help='the summary QC file')
 parser.add_argument('-f', '--fasta', help='filename of output fasta')
 parser.add_argument('-i', '--include', help='a list of samples to be included',
                     default=None)
+parser.add_argument('-c', '--config', help='YAML file containing GISAID run config')
 if len(sys.argv) == 1:
     parser.print_help(sys.stderr)
     sys.exit(1)
 args = parser.parse_args()
+
+config = dict()
+with open(args.config, 'r') as yaml_p:
+    config = yaml.full_load(yaml_p)
 
 include_list = []
 if args.include:
@@ -49,7 +55,8 @@ for gisaid_sample in gisaid_samples:
                                                          fasta_header=gisaid_sample[samplename]['fasta_header'],
                                                          coverage=qc_dict[samplename]['mean_depth'],
                                                          fasta_file=args.fasta,
-                                                         date=date)
+                                                         date=date,
+                                                         config=config)
         if include_list:
             if samplename in include_list:
                 multi_fasta_list.extend(gisaid.create_fasta_record(fasta=gisaid_sample[samplename]['consensus'],
