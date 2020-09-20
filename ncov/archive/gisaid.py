@@ -66,7 +66,7 @@ def get_consensus_fasta_files(path=os.getcwd()):
     return consensus_files
 
 
-def is_file_fasta(file, pattern=['\.consensus.fasta', '\.consensus.fa']):
+def is_file_fasta(file, pattern=['\.consensus.fasta', '\.consensus.fa', '\.primertrimmed.consensus.fa']):
     '''
     Returns a boolean after determining whether the file is a consensus FASTA file.
 
@@ -81,7 +81,7 @@ def is_file_fasta(file, pattern=['\.consensus.fasta', '\.consensus.fa']):
     return re.search(_search, file)
 
 
-def get_sample_name_from_fasta(file, pattern=['\.consensus.fasta', '\.consensus.fa']):
+def get_sample_name_from_fasta(file, pattern=['\.consensus.fasta', '\.consensus.fa', '\.primertrimmed.consensus.fa']):
     '''
     Extracts the sample name based on the removal of the pattern.
 
@@ -104,22 +104,23 @@ def init_metadata_dictionary():
     metadata_record = {}
 
 
-def create_metadata_dictionary(consensus, sample_name, fasta_header, coverage,
+def create_metadata_dictionary(config, consensus, sample_name, fasta_header, coverage,
                                fasta_file, date='unknown'):
     '''
     Create a dictionary containing metadata fields used in the GISAID template.
     '''
     metadata_record = {}
-    metadata_record['Submitter'] = 'rdeborja'
+    #metadata_record['Submitter'] = 'rdeborja'
+    metadata_record['Submitter'] = config['submitter']
 #    metadata_record['FASTA_filename'] = os.path.basename(consensus)
     metadata_record['FASTA_filename'] = fasta_file
     metadata_record['Virus_name'] = re.sub('^>', '', fasta_header)
-    metadata_record['Type'] = 'betacoronavirus'
+    metadata_record['Type'] = config['type']
     metadata_record['Passage_details_history'] = 'unknown'
     metadata_record['Collection_date'] = date
-    metadata_record['Location'] = 'North America / Canada / Ontario'
+    metadata_record['Location'] = config['location']
     metadata_record['Additional_location_information'] = ''
-    metadata_record['Host'] = 'Human'
+    metadata_record['Host'] = config['host']
     metadata_record['Additional_host_information'] = ''
     metadata_record['Gender'] = 'unknown'
     metadata_record['Patient_age'] = 'unknown'
@@ -128,16 +129,16 @@ def create_metadata_dictionary(consensus, sample_name, fasta_header, coverage,
     metadata_record['Outbreak'] = ''
     metadata_record['Last_vaccinated'] = ''
     metadata_record['Treatment'] = ''
-    metadata_record['Sequencing_technology'] = 'Oxford Nanopore'
-    metadata_record['Assembly_method'] = 'ARTIC-nanopolish 1.1.2'
+    metadata_record['Sequencing_technology'] = config['platform']
+    metadata_record['Assembly_method'] = config['assembly_method']
     metadata_record['Coverage'] = coverage
-    metadata_record['Originating_lab'] = 'Unity Health Toronto'
-    metadata_record['Originating_lab_Address'] = '30 Bond Street, Toronto, ON, M5B 1W8'
+    metadata_record['Originating_lab'] = config['originating_lab']
+    metadata_record['Originating_lab_Address'] = config['originating_lab_address']
     metadata_record['Sample_ID_given_by_the_sample_provider'] = sample_name
-    metadata_record['Submitting_lab'] = 'Ontario Institute for Cancer Research'
-    metadata_record['Submitting_lab_Address'] = '661 University Avenue, Toronto, ON, M5G 1M1'
+    metadata_record['Submitting_lab'] = config['submitting_lab']
+    metadata_record['Submitting_lab_Address'] = config['submitting_lab_address']
     metadata_record['Sample_ID_given_by_submitting_laboratory'] = sample_name
-    metadata_record['Authors'] = 'Ramzi Fattouh,Larissa M. Matukas,Mark Downing,Annette Gower,Karel Boissinot,Samira Mubareka,TIBDN,Ilinca Lungu,Bernard Lam,Jeremy Johns,Paul Krzyzanowski,Richard de Borja,Philip Zuzarte,Jared Simpson'
+    metadata_record['Authors'] = config['authors']
     metadata_record['Comment'] = ''
     metadata_record['Comment_icon'] = ''
     return metadata_record
@@ -317,5 +318,5 @@ def get_coverage_dictionary(file):
     with open(file, 'r') as file_i:
         qc_reader = csv.DictReader(file_i, delimiter='\t')
         for line in qc_reader:
-            qc_data[line['sample_name']] = {'mean_depth' : line['mean_depth']}
+            qc_data[line['sample']] = {'mean_depth' : line['mean_sequencing_depth']}
     return qc_data
