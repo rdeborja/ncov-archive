@@ -22,5 +22,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    scripts=['bin/create_gisaid_metadata.py']
+    scripts=['bin/create_gisaid_files.py']
 )
