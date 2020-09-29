@@ -17,6 +17,8 @@ parser.add_argument('-q', '--qc', help='the summary QC file')
 parser.add_argument('-f', '--fasta', help='filename of output fasta')
 parser.add_argument('-i', '--include', help='a list of samples to be included',
                     default=None)
+parser.add_argument('-e', '--exclude', help='a list of samples to remove',
+                    default=None)
 parser.add_argument('-c', '--config', help='YAML file containing GISAID run config')
 if len(sys.argv) == 1:
     parser.print_help(sys.stderr)
@@ -30,6 +32,10 @@ with open(args.config, 'r') as yaml_p:
 include_list = []
 if args.include:
     include_list = gisaid.import_sample_include_list(file=args.include)
+exclude_list = []
+if args.exclude:
+    exclude_list = gisaid.import_sample_exclude_list(file=args.exclude)
+    print(exclude_list)
 qc_dict =  {}
 qc_dict = gisaid.get_coverage_dictionary(file=args.qc)
 metadata = gisaid.import_uhtc_metadata(file=args.meta)
@@ -41,9 +47,13 @@ file_o.write(gisaid.get_column_header())
 file_o.write("\n")
 file_o.write(gisaid.get_column_header_name())
 file_o.write("\n")
-gisaid_samples = gisaid.get_consensus_fasta_files(path=os.getcwd())
+gisaid_samples = gisaid.get_consensus_fasta_files(path=args.path)
 for gisaid_sample in gisaid_samples:
     for samplename in gisaid_sample:
+        if exclude_list:
+            if samplename in exclude_list:
+                print(' '.join(['Sample found in exclude list: ', samplename]))
+                continue
         if samplename in metadata:
             date = metadata[samplename]['collection_date']
         else:
