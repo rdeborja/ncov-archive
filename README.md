@@ -44,7 +44,7 @@ GISAIDs guidelines: `create_gisaid_files.py`
 The usage is as follows:
 ```
 usage: create_gisaid_files.py [-h] [-o OUTPUT] [-p PATH] [-m META] [-q QC]
-                              [-f FASTA] [-i INCLUDE] [-c CONFIG]
+                              [-f FASTA] [-i INCLUDE] [-e EXCLUDE] [-c CONFIG]
 
 Create required GISAID files
 
@@ -59,6 +59,8 @@ optional arguments:
                         filename of output fasta
   -i INCLUDE, --include INCLUDE
                         a list of samples to be included
+  -e EXCLUDE, --exclude EXCLUDE
+                        a list of samples to remove
   -c CONFIG, --config CONFIG
                         YAML file containing GISAID run config
 ```
@@ -68,7 +70,9 @@ for `ncov-tools` and the `--qc` argument is generated from the output of
 snakemake file.  The `--include` argument requires a file containing a list with
 each row consisting of sample names.  This is an optional argument and if not
 included returns all samples with a FASTA file and corresponding entry in the
-metadata.
+metadata.  Similarly, the `--exclude` argument also requires a file containing a
+list of samples per row.  These samples will be filtered out from the final
+metadata and FASTA files.
 
 
 ## Credit and Acknowledgement
