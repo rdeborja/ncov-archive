@@ -116,7 +116,7 @@ def create_metadata_dictionary(config, consensus, sample_name, fasta_header, cov
     metadata_record['FASTA_filename'] = fasta_file
     metadata_record['Virus_name'] = re.sub('^>', '', fasta_header)
     metadata_record['Type'] = config['type']
-    metadata_record['Passage_details_history'] = 'unknown'
+    metadata_record['Passage_details_history'] = 'Original'
     metadata_record['Collection_date'] = date
     metadata_record['Location'] = config['location']
     metadata_record['Additional_location_information'] = ''
