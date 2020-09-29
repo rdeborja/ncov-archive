@@ -41,7 +41,7 @@ file_o.write(gisaid.get_column_header())
 file_o.write("\n")
 file_o.write(gisaid.get_column_header_name())
 file_o.write("\n")
-gisaid_samples = gisaid.get_consensus_fasta_files(path=os.getcwd())
+gisaid_samples = gisaid.get_consensus_fasta_files(path=args.path)
 for gisaid_sample in gisaid_samples:
     for samplename in gisaid_sample:
         if samplename in metadata:
