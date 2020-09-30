@@ -13,7 +13,7 @@ def create_fasta_header(virus, sample_id, country, year):
     Replace a FASTA header with a GISAID compatible version:
         ">hCoV-19/Canada/ON-samplename/2020"
     '''
-    fasta_id = '/'.join([virus, country, sample_id, year])
+    fasta_id = '/'.join([virus, country, sample_id, str(year)])
     fasta_header = ''.join(['>', fasta_id])
     return fasta_header
 
