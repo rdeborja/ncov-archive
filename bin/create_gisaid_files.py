@@ -37,7 +37,6 @@ if args.include:
 exclude_list = []
 if args.exclude:
     exclude_list = gisaid.import_sample_exclude_list(file=args.exclude)
-    print(exclude_list)
 
 qc_dict =  {}
 qc_dict = gisaid.get_coverage_dictionary(file=args.qc)
