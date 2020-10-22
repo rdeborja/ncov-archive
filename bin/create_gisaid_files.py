@@ -7,6 +7,7 @@ import os
 import sys
 import argparse
 import yaml
+import datetime
 import ncov.archive.gisaid as gisaid
 
 parser = argparse.ArgumentParser(description='Create required GISAID files')
@@ -25,6 +26,7 @@ if len(sys.argv) == 1:
     sys.exit(1)
 args = parser.parse_args()
 
+year = datetime.date.today().year
 config = dict()
 with open(args.config, 'r') as yaml_p:
     config = yaml.full_load(yaml_p)
@@ -35,11 +37,12 @@ if args.include:
 exclude_list = []
 if args.exclude:
     exclude_list = gisaid.import_sample_exclude_list(file=args.exclude)
-    print(exclude_list)
+
 qc_dict =  {}
 qc_dict = gisaid.get_coverage_dictionary(file=args.qc)
 metadata = gisaid.import_uhtc_metadata(file=args.meta)
 multi_fasta_list = []
+
 # create the metadata file which will be imported into Excel for
 # GISAID upload
 file_o = open(args.output, 'w')
@@ -47,7 +50,8 @@ file_o.write(gisaid.get_column_header())
 file_o.write("\n")
 file_o.write(gisaid.get_column_header_name())
 file_o.write("\n")
-gisaid_samples = gisaid.get_consensus_fasta_files(path=args.path)
+gisaid_samples = gisaid.get_consensus_fasta_files(path=args.path, year=year)
+
 for gisaid_sample in gisaid_samples:
     for samplename in gisaid_sample:
         if exclude_list:
