@@ -12,15 +12,15 @@ import ncov.archive.gisaid as gisaid
 
 parser = argparse.ArgumentParser(description='Create required GISAID files')
 parser.add_argument('-o', '--output', help='filename to write metadata to')
+parser.add_argument('-f', '--fasta', help='filename of output fasta')
 parser.add_argument('-p', '--path', default=os.getcwd(), help='path to search')
 parser.add_argument('-m', '--meta', help='meta file')
 parser.add_argument('-q', '--qc', help='the summary QC file')
-parser.add_argument('-f', '--fasta', help='filename of output fasta')
+parser.add_argument('-c', '--config', help='YAML file containing GISAID run config')
 parser.add_argument('-i', '--include', help='a list of samples to be included',
                     default=None)
 parser.add_argument('-e', '--exclude', help='a list of samples to remove',
                     default=None)
-parser.add_argument('-c', '--config', help='YAML file containing GISAID run config')
 if len(sys.argv) == 1:
     parser.print_help(sys.stderr)
     sys.exit(1)
@@ -31,17 +31,17 @@ config = dict()
 with open(args.config, 'r') as yaml_p:
     config = yaml.full_load(yaml_p)
 
-include_list = []
+include_list = list()
 if args.include:
     include_list = gisaid.import_sample_include_list(file=args.include)
-exclude_list = []
+exclude_list = list()
 if args.exclude:
     exclude_list = gisaid.import_sample_exclude_list(file=args.exclude)
 
-qc_dict =  {}
+qc_dict =  dict()
 qc_dict = gisaid.get_coverage_dictionary(file=args.qc)
 metadata = gisaid.import_uhtc_metadata(file=args.meta)
-multi_fasta_list = []
+multi_fasta_list = list()
 
 # create the metadata file which will be imported into Excel for
 # GISAID upload
