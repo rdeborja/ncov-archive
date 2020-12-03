@@ -10,9 +10,10 @@ import pysam
 
 def create_fasta_header(virus, sample_id, country, year):
     '''
-    Replace a FASTA header with a GISAID compatible version.
+    Replace a FASTA header with a GISAID compatible version:
+        ">hCoV-19/Canada/ON-samplename/2020"
     '''
-    fasta_id = '/'.join([virus, country, sample_id, year])
+    fasta_id = '/'.join([virus, country, sample_id, str(year)])
     fasta_header = ''.join(['>', fasta_id])
     return fasta_header
 
@@ -30,23 +31,7 @@ def create_fasta_record(fasta, header):
         
 
 
-
-def merge_fasta_files(fasta_list):
-    '''
-    Merge a list of valid FASTA files into a single multi-sample FASTA file.
-    Note that this is the format required for uploading batch samples to
-    GISAID.
-
-    Arguments:
-        * fasta_list: a list containing valid FASTA files for concatenation
-
-    Return Value:
-        Returns a single FASTA file with all samples.
-    '''
-    pass    
-
-
-def get_consensus_fasta_files(path=os.getcwd()):
+def get_consensus_fasta_files(path=os.getcwd(), year='2020'):
     '''
     Create an array of dictionaries containing the sample and FASTA consensus file.
 
@@ -64,12 +49,16 @@ def get_consensus_fasta_files(path=os.getcwd()):
                 sample_name = get_sample_name_from_fasta(file=file)
                 consensus_files.append({sample_name :
                     {'consensus' : '/'.join([root, file]),
-                     'fasta_header' : create_fasta_header(virus='hCoV-19', sample_id='-'.join(['ON', sample_name]), country='Canada', year='2020')
+                     'fasta_header' : create_fasta_header(virus='hCoV-19',
+                         sample_id='-'.join(['ON', sample_name]),
+                     country='Canada', year=year)
                     }})
     return consensus_files
 
 
-def is_file_fasta(file, pattern=['\.consensus.fasta', '\.consensus.fa', '\.primertrimmed.consensus.fa']):
+def is_file_fasta(file, pattern=['\.consensus.fasta',
+                                 '\.consensus.fa',
+                                 '\.primertrimmed.consensus.fa']):
     '''
     Returns a boolean after determining whether the file is a consensus FASTA file.
 
@@ -84,7 +73,10 @@ def is_file_fasta(file, pattern=['\.consensus.fasta', '\.consensus.fa', '\.prime
     return re.search(_search, file)
 
 
-def get_sample_name_from_fasta(file, pattern=['\.consensus.fasta', '\.consensus.fa', '\.primertrimmed.consensus.fa']):
+def get_sample_name_from_fasta(file,
+                               pattern=['\.consensus.fasta',
+                                        '\.consensus.fa',
+                                        '\.primertrimmed.consensus.fa']):
     '''
     Extracts the sample name based on the removal of the pattern.
 
@@ -107,16 +99,14 @@ def init_metadata_dictionary():
     metadata_record = {}
 
 
-def create_metadata_dictionary(config, consensus, sample_name, fasta_header, coverage,
-                               fasta_file, date='unknown'):
+def create_metadata_dictionary(config, consensus, sample_name, fasta_header,
+                               coverage, fasta_file, date='unknown'):
     '''
     Create a dictionary containing metadata fields used in the GISAID template.
     '''
     metadata_record = {}
-    #metadata_record['Submitter'] = 'rdeborja'
     metadata_record['Submitter'] = config['submitter']
-#    metadata_record['FASTA_filename'] = os.path.basename(consensus)
-    metadata_record['FASTA_filename'] = fasta_file
+    metadata_record['FASTA_filename'] = os.path.basename(fasta_file)
     metadata_record['Virus_name'] = re.sub('^>', '', fasta_header)
     metadata_record['Type'] = config['type']
     metadata_record['Passage_details_history'] = 'Original'
