@@ -6,7 +6,7 @@ import os
 import re
 import csv
 import textwrap as tw
-from Bio import SeqIO
+import pysam
 
 def create_fasta_header(virus, sample_id, country, year):
     '''
@@ -20,12 +20,15 @@ def create_fasta_header(virus, sample_id, country, year):
 
 def create_fasta_record(fasta, header):
     '''
-    Create a BioPython FASTA record
+    Create a FASTA record
     '''
-    fasta_record = []
-    _tmp_record = SeqIO.read(fasta, 'fasta')
+    fasta_record = list()
     fasta_record.append(header)
-    return fasta_record + tw.wrap(str(_tmp_record.seq), width=60)
+    fasta = pysam.FastxFile(fasta)
+    for record in fasta:
+        fasta_record.extend(tw.wrap(str(record.sequence), width=60))
+    return fasta_record
+        
 
 
 def get_consensus_fasta_files(path=os.getcwd(), year='2020'):
