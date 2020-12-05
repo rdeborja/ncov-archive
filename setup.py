@@ -12,6 +12,7 @@ setuptools.setup(
     author="Richard J. de Borja",
     author_email="richard.deborja@oicr.on.ca",
     description="A nCoV package for archiving files to publice repos",
+    license='MIT',
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/rdeborja/ncov-archive",
