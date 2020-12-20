@@ -18,7 +18,7 @@ def create_fasta_header(virus, sample_id, country, year):
     return fasta_header
 
 
-def create_fasta_record(fasta, header):
+def create_fasta_record(fasta, header, width=60):
     '''
     Create a FASTA record
     '''
@@ -26,7 +26,7 @@ def create_fasta_record(fasta, header):
     fasta_record.append(header)
     fasta = pysam.FastxFile(fasta)
     for record in fasta:
-        fasta_record.extend(tw.wrap(str(record.sequence), width=60))
+        fasta_record.extend(tw.wrap(str(record.sequence), width=width))
     return fasta_record
         
 
