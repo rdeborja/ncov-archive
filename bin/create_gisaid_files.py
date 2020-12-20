@@ -75,7 +75,7 @@ for gisaid_sample in gisaid_samples:
             if samplename in include_list:
                 multi_fasta_list.extend(gisaid.create_fasta_record(fasta=gisaid_sample[samplename]['consensus'],
                                                                    header=gisaid_sample[samplename]['fasta_header']))
-                file_o.write(gisaid.create_metadata_string(_sample_dict))
+                file_o.write(gisaid.create_metadata_string(_sample_dict, delimiter=','))
                 file_o.write("\n")
             else:
                 print(' '.join(['Excluding sample: ', samplename]))
@@ -83,7 +83,7 @@ for gisaid_sample in gisaid_samples:
         else:
             multi_fasta_list.extend(gisaid.create_fasta_record(fasta=gisaid_sample[samplename]['consensus'],
                                                                 header=gisaid_sample[samplename]['fasta_header']))
-            file_o.write(gisaid.create_metadata_string(_sample_dict))
+            file_o.write(gisaid.create_metadata_string(_sample_dict, delimiter=','))
             file_o.write("\n")
 # write the multi-sample FASTA list to a file
 with open(args.fasta, 'w') as fasta_out:
