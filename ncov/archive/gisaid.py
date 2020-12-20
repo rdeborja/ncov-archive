@@ -126,14 +126,12 @@ def create_metadata_dictionary(config, consensus, sample_name, fasta_header,
     metadata_record['Assembly_method'] = config['assembly_method']
     metadata_record['Coverage'] = coverage
     metadata_record['Originating_lab'] = config['originating_lab']
-    metadata_record['Originating_lab_Address'] = config['originating_lab_address']
+    metadata_record['Originating_lab_Address'] = f'\"{config['originating_lab_address']}\"'
     metadata_record['Sample_ID_given_by_the_sample_provider'] = sample_name
     metadata_record['Submitting_lab'] = config['submitting_lab']
-    metadata_record['Submitting_lab_Address'] = config['submitting_lab_address']
+    metadata_record['Submitting_lab_Address'] = f'\"{config["submitting_lab_address"]}\"'
     metadata_record['Sample_ID_given_by_submitting_laboratory'] = sample_name
-    metadata_record['Authors'] = config['authors']
-    metadata_record['Comment'] = ''
-    metadata_record['Comment_icon'] = ''
+    metadata_record['Authors'] = f'\"{config["authors"]}\"'
     return metadata_record
 
 
@@ -168,9 +166,7 @@ def create_metadata_string(metadata, delimiter='\t'):
         metadata['Submitting_lab'],
         metadata['Submitting_lab_Address'],
         metadata['Sample_ID_given_by_submitting_laboratory'],
-        metadata['Authors'],
-        metadata['Comment'],
-        metadata['Comment_icon']])
+        metadata['Authors']])
 
 def get_column_header(delimiter='\t'):
     '''
@@ -203,9 +199,7 @@ def get_column_header(delimiter='\t'):
         'covv_subm_lab',
         'covv_subm_lab_addr',
         'covv_subm_sample_id',
-        'covv_authors',
-        'covv_comment',
-        'comment_type'])
+        'covv_authors'])
 
 
 def get_column_header_name(delimiter='\t'):
@@ -239,9 +233,7 @@ def get_column_header_name(delimiter='\t'):
         'Submitting lab',
         'Address', 
         'Sample ID given by the submitting laboratory',
-        'Authors',
-        'Comment',
-        'Comment Icon'
+        'Authors'
     ])
 
 
