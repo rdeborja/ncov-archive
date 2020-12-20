@@ -126,7 +126,7 @@ def create_metadata_dictionary(config, consensus, sample_name, fasta_header,
     metadata_record['Assembly_method'] = config['assembly_method']
     metadata_record['Coverage'] = coverage
     metadata_record['Originating_lab'] = config['originating_lab']
-    metadata_record['Originating_lab_Address'] = f'\"{config['originating_lab_address']}\"'
+    metadata_record['Originating_lab_Address'] = f'\"{config["originating_lab_address"]}\"'
     metadata_record['Sample_ID_given_by_the_sample_provider'] = sample_name
     metadata_record['Submitting_lab'] = config['submitting_lab']
     metadata_record['Submitting_lab_Address'] = f'\"{config["submitting_lab_address"]}\"'
@@ -243,8 +243,8 @@ def write_metadata_to_file(metadata, file='out.csv'):
     '''
     gisaid_fasta_files = get_consensus_fasta_files()
     with open(file, 'w') as outfile:
-        outfile.write(get_column_header() + "\n")
-        outfile.write(get_column_header_name() + "\n")
+        outfile.write(get_column_header(delimiter=',') + "\n")
+#        outfile.write(get_column_header_name() + "\n")
         for file in gisaid_fasta_files:
             for sample in file:
                 metadata_string = ','.join()
