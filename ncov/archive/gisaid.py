@@ -135,7 +135,7 @@ def create_metadata_dictionary(config, consensus, sample_name, fasta_header,
     return metadata_record
 
 
-def create_metadata_string(metadata, delimiter='\t'):
+def create_metadata_string(metadata, delimiter=','):
     '''
 
     '''
@@ -168,7 +168,7 @@ def create_metadata_string(metadata, delimiter='\t'):
         metadata['Sample_ID_given_by_submitting_laboratory'],
         metadata['Authors']])
 
-def get_column_header(delimiter='\t'):
+def get_column_header(delimiter=','):
     '''
     Get the column headers.
     '''
@@ -202,7 +202,7 @@ def get_column_header(delimiter='\t'):
         'covv_authors'])
 
 
-def get_column_header_name(delimiter='\t'):
+def get_column_header_name(delimiter=','):
     '''
     Get the column header names.
     '''
@@ -243,8 +243,7 @@ def write_metadata_to_file(metadata, file='out.csv'):
     '''
     gisaid_fasta_files = get_consensus_fasta_files()
     with open(file, 'w') as outfile:
-        outfile.write(get_column_header(delimiter=',') + "\n")
-#        outfile.write(get_column_header_name() + "\n")
+        outfile.write(get_column_header() + "\n")
         for file in gisaid_fasta_files:
             for sample in file:
                 metadata_string = ','.join()
