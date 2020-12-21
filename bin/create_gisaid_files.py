@@ -43,13 +43,10 @@ qc_dict = gisaid.get_coverage_dictionary(file=args.qc)
 metadata = gisaid.import_uhtc_metadata(file=args.meta)
 multi_fasta_list = list()
 
-# create the metadata file which will be imported into Excel for
-# GISAID upload
+# create the metadata file which will be uploaded to GISAID
 file_o = open(args.output, 'w')
 file_o.write(gisaid.get_column_header(delimiter=','))
 file_o.write("\n")
-# file_o.write(gisaid.get_column_header_name())
-# file_o.write("\n")
 gisaid_samples = gisaid.get_consensus_fasta_files(path=args.path, year=year)
 
 for gisaid_sample in gisaid_samples:
