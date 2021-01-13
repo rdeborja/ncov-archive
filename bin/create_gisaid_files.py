@@ -43,12 +43,9 @@ qc_dict = gisaid.get_coverage_dictionary(file=args.qc)
 metadata = gisaid.import_uhtc_metadata(file=args.meta)
 multi_fasta_list = list()
 
-# create the metadata file which will be imported into Excel for
-# GISAID upload
+# create the metadata file which will be uploaded to GISAID
 file_o = open(args.output, 'w')
-file_o.write(gisaid.get_column_header())
-file_o.write("\n")
-file_o.write(gisaid.get_column_header_name())
+file_o.write(gisaid.get_column_header(delimiter=','))
 file_o.write("\n")
 gisaid_samples = gisaid.get_consensus_fasta_files(path=args.path, year=year)
 
@@ -75,7 +72,7 @@ for gisaid_sample in gisaid_samples:
             if samplename in include_list:
                 multi_fasta_list.extend(gisaid.create_fasta_record(fasta=gisaid_sample[samplename]['consensus'],
                                                                    header=gisaid_sample[samplename]['fasta_header']))
-                file_o.write(gisaid.create_metadata_string(_sample_dict))
+                file_o.write(gisaid.create_metadata_string(_sample_dict, delimiter=','))
                 file_o.write("\n")
             else:
                 print(' '.join(['Excluding sample: ', samplename]))
@@ -83,7 +80,7 @@ for gisaid_sample in gisaid_samples:
         else:
             multi_fasta_list.extend(gisaid.create_fasta_record(fasta=gisaid_sample[samplename]['consensus'],
                                                                 header=gisaid_sample[samplename]['fasta_header']))
-            file_o.write(gisaid.create_metadata_string(_sample_dict))
+            file_o.write(gisaid.create_metadata_string(_sample_dict, delimiter=','))
             file_o.write("\n")
 # write the multi-sample FASTA list to a file
 with open(args.fasta, 'w') as fasta_out:
