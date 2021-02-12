@@ -8,10 +8,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ncov-archive",
-    version="0.3.2",
+    version="0.3.3",
     author="Richard J. de Borja",
     author_email="richard.deborja@oicr.on.ca",
-    description="A nCoV package for archiving files to publice repos",
+    description="A nCoV package for archiving files to public repos",
     license='MIT',
     long_description=long_description,
     long_description_content_type="text/markdown",
