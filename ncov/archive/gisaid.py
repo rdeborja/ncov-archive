@@ -57,6 +57,7 @@ def get_consensus_fasta_files(path=os.getcwd(), year='2020'):
 
 
 def is_file_fasta(file, pattern=['\.consensus.fasta',
+                                 '\.masked_consensus.fasta',
                                  '\.consensus.fa',
                                  '\.primertrimmed.consensus.fa']):
     '''
@@ -75,6 +76,7 @@ def is_file_fasta(file, pattern=['\.consensus.fasta',
 
 def get_sample_name_from_fasta(file,
                                pattern=['\.consensus.fasta',
+                                        '\.masked_consensus.fasta',
                                         '\.consensus.fa',
                                         '\.primertrimmed.consensus.fa']):
     '''
@@ -114,7 +116,7 @@ def create_metadata_dictionary(config, consensus, sample_name, fasta_header,
     metadata_record['Location'] = config['location']
     metadata_record['Additional_location_information'] = ''
     metadata_record['Host'] = config['host']
-    metadata_record['Additional_host_information'] = ''
+    metadata_record['Additional_host_information'] = config['additional_host_information']
     metadata_record['Gender'] = 'unknown'
     metadata_record['Patient_age'] = 'unknown'
     metadata_record['Patient_status'] = 'unknown'
