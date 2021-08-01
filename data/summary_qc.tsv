@@ -1,0 +1,8 @@
+sample	run_name	num_consensus_snvs	num_consensus_n	num_consensus_iupac	num_variants_snvs	num_variants_indel	num_variants_indel_triplet	mean_sequencing_depth	median_sequencing_depth	qpcr_ct	collection_date	num_weeks	scaled_variants_snvs	genome_completeness	qc_pass	lineage	lineage_notes	scorpio_call	watch_mutations
+sample1	Plate0240_20210602	0	29903	0	0	0	0	6.1	0	NA	NA	NA	NA	0.0	INCOMPLETE_GENOME	none	none	none	none
+sample2	Plate0240_20210602	38	630	0	31	6	3	2072.7	2011	NA	NA	NA	NA	0.9789	PASS	B.1.1.7	alt/ref/amb:19/3/0	Alpha (B.1.1.7-like)	S:del69-70,S:del144,S:N501Y,S:A570D,S:P681H,S:T716I,S:S982A,S:D1118H
+sample3	Plate0240_20210602	39	121	0	32	6	3	1750.3	1718	NA	NA	NA	NA	0.996	PASS	B.1.1.7	alt/ref/amb:20/3/0	Alpha (B.1.1.7-like)	S:del69-70,S:del144,S:N501Y,S:A570D,S:P681H,S:T716I,S:S982A,S:D1118H
+sampleA	Plate0240_20210602	47	417	0	35	3	2	1746.3	1700	NA	NA	NA	NA	0.986	PASS	B.1.617.2	alt/ref/amb:12/0/0	Delta (B.1.617.2-like)	S:L452R
+sampleB	Plate0240_20210602	34	478	0	34	2	1	1661.3	1601	NA	NA	NA	NA	0.984	PASS	B.1.617.2	alt/ref/amb:12/0/0	Delta (B.1.617.2-like)	S:L452R
+sample4	Plate0240_20210602	34	761	0	34	2	1	1602.6	1522	NA	NA	NA	NA	0.9745	PASS	B.1	alt/ref/amb:12/0/0	Delta (B.1.617.2-like)	S:L452R
+sampleD	Plate0240_20210602	34	230	2	29	6	3	1885.5	1794	NA	NA	NA	NA	0.9923	PASS	B.1.1.7	alt/ref/amb:20/3/0	Alpha (B.1.1.7-like)	S:del69-70,S:del144,S:N501Y,S:A570D,S:P681H,S:T716I,S:S982A,S:D1118H

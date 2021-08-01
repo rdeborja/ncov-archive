@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ncov-archive",
-    version="0.3.2",
+    version="0.4.0",
     author="Richard J. de Borja",
     author_email="richard.deborja@oicr.on.ca",
     description="A nCoV package for archiving files to publice repos",
@@ -23,5 +23,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    scripts=['bin/create_gisaid_files.py']
+    scripts=['bin/create_gisaid_files.py',
+             'bin/create_virusseq_files.py']
 )

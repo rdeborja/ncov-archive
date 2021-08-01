@@ -1,0 +1,12 @@
+---
+study_id: "TEST-ON"
+sample_collected_by: "Test Lab"
+sample_collected_by_short: "testlab"
+submitted_by: "Ontario Institute for Cancer Research"
+submitted_by_short: "oicr"
+country: "Canada"
+province: "Ontario"
+host: "Homo sapiens"
+sequencing_instrument: "Oxford Nanopore"
+consensus_sequencing_software_name: "ARTIC-nanopolish"
+consensus_sequencing_software_version: "1.1.3"
